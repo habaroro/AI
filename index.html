@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>퍼펙트문해 로고송 투표하기</title>
+  <meta name="description" content="퍼펙트문해 CM송 투표 페이지 - 마음에 드는 음원에 투표해주세요!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #C57B43;
+      --primary-light: #E09A65;
+      --primary-dark: #A05B28;
+      --accent: #E8A869;
+      --accent-light: #F2D2A9;
+      --bg-start: #FBF9F6;
+      --bg-end: #EFE8DE;
+      --card-bg: #FFFFFF;
+      --card-border: rgba(180, 160, 140, 0.2);
+      --card-selected-bg: #FFFDF9;
+      --card-selected-border: #C57B43;
+      --text-primary: #38312B;
+      --text-secondary: #7A6F66;
+      --text-muted: #A39A90;
+      --shadow-sm: 0 4px 16px rgba(100, 80, 60, 0.04);
+      --shadow-md: 0 8px 32px rgba(100, 80, 60, 0.06);
+      --shadow-lg: 0 16px 48px rgba(100, 80, 60, 0.08);
+      --radius: 20px;
+      --radius-sm: 14px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(160deg, var(--bg-start) 0%, var(--bg-end) 100%);
+      min-height: 100vh;
+      min-height: 100dvh;
+      color: var(--text-primary);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .hero-image {
+      margin-top: 24px;
+      margin-bottom: -16px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .app-container {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 20px;
+      padding-bottom: 120px;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      padding: 40px 0 12px;
+      position: relative;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(209, 124, 63, 0.1);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .header-badge svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .header h1 {
+      font-size: 26px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    /* ── Song Cards ── */
+    .song-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .song-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 16px;
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .song-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(209, 124, 63, 0.05) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity var(--transition);
+      pointer-events: none;
+    }
+
+    .song-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(209, 124, 63, 0.2);
+    }
+
+    .song-card:hover::before {
+      opacity: 1;
+    }
+
+    .song-card:active {
+      transform: scale(0.98);
+    }
+
+    .song-card.selected {
+      background: var(--card-selected-bg);
+      border-color: var(--card-selected-border);
+      box-shadow: 0 0 0 3px rgba(209, 124, 63, 0.1), var(--shadow-md);
+    }
+
+    .song-card.selected::before {
+      opacity: 1;
+      background: linear-gradient(135deg, rgba(209, 124, 63, 0.06) 0%, rgba(228, 162, 108, 0.04) 100%);
+    }
+
+    .song-card-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .song-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .song-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .song-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .song-number {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .song-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .song-check {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #D0C9DC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all var(--transition);
+      background: transparent;
+    }
+
+    .song-check svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all var(--transition);
+      color: white;
+    }
+
+    .song-card.selected .song-check {
+      background: var(--primary);
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(209, 124, 63, 0.3);
+    }
+
+    .song-card.selected .song-check svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* ── Audio Player (inside card) ── */
+    .song-player {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .play-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all var(--transition);
+      box-shadow: 0 2px 8px rgba(209, 124, 63, 0.25);
+    }
+
+    .play-btn:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    .play-btn:active {
+      transform: scale(0.95);
+    }
+
+    .play-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .player-progress {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .progress-bar-wrap {
+      width: 100%;
+      height: 4px;
+      background: rgba(209, 124, 63, 0.1);
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    .player-time {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .lyrics-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .lyrics-btn:hover {
+      background: rgba(209, 124, 63, 0.08);
+    }
+
+    /* ── Vote Button (Sticky) ── */
+    .vote-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 20px;
+      padding-bottom: max(16px, env(safe-area-inset-bottom));
+      background: linear-gradient(to top, rgba(250, 246, 240, 0.98) 60%, rgba(250, 246, 240, 0) 100%);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .vote-bar.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    .vote-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(209, 124, 63, 0.35);
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vote-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .vote-btn:hover::after {
+      left: 100%;
+    }
+
+    .vote-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(209, 124, 63, 0.4);
+    }
+
+    .vote-btn:active {
+      transform: scale(0.98);
+    }
+
+    .vote-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding: 32px 0 16px;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .footer .admin-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 12px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: all var(--transition);
+      opacity: 0.5;
+    }
+
+    .footer .admin-btn:hover {
+      opacity: 1;
+      background: rgba(0,0,0,0.04);
+    }
+
+    .footer .admin-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* ── Lyrics Bottom Sheet ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .bottom-sheet {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 210;
+      max-height: 80vh;
+      background: white;
+      border-radius: 24px 24px 0 0;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bottom-sheet.open {
+      transform: translateY(0);
+    }
+
+    .bottom-sheet-handle {
+      width: 40px;
+      height: 4px;
+      background: #D0C9DC;
+      border-radius: 2px;
+      margin: 12px auto 0;
+      flex-shrink: 0;
+    }
+
+    .bottom-sheet-header {
+      padding: 16px 24px 12px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .bottom-sheet-header h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .bottom-sheet-header p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .bottom-sheet-body {
+      padding: 8px 24px 32px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      flex: 1;
+    }
+
+    .lyrics-text {
+      font-size: 15px;
+      line-height: 2;
+      color: var(--text-primary);
+      text-align: center;
+      font-weight: 500;
+      word-break: keep-all;
+    }
+
+    .bottom-sheet-close {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      margin-top: 12px;
+      background: none;
+      border: none;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      transition: background var(--transition);
+      flex-shrink: 0;
+    }
+
+    .bottom-sheet-close:hover {
+      background: rgba(209, 124, 63, 0.04);
+    }
+
+    /* ── Admin Modal ── */
+    .admin-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .admin-modal.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .admin-modal-bg {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .admin-modal-content {
+      position: relative;
+      background: white;
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      width: calc(100% - 48px);
+      max-width: 380px;
+      box-shadow: var(--shadow-lg);
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .admin-modal.open .admin-modal-content {
+      transform: scale(1);
+    }
+
+    .admin-modal h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .admin-results {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-result-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-result-label {
+      font-size: 14px;
+      font-weight: 600;
+      width: 48px;
+      flex-shrink: 0;
+    }
+
+    .admin-result-bar-wrap {
+      flex: 1;
+      height: 28px;
+      background: rgba(209, 124, 63, 0.08);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .admin-result-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      border-radius: 8px;
+      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 8px;
+      min-width: fit-content;
+    }
+
+    .admin-result-count {
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      white-space: nowrap;
+    }
+
+    .admin-close-btn {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .admin-close-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: var(--text-primary);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 400;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── Confetti Burst ── */
+    @keyframes confetti-fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(60vh) rotate(720deg); opacity: 0; }
+    }
+
+    .confetti {
+      position: fixed;
+      top: -10px;
+      width: 10px;
+      height: 10px;
+      z-index: 500;
+      pointer-events: none;
+      border-radius: 2px;
+    }
+
+    /* ── Stagger animation ── */
+    @keyframes fade-slide-up {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .song-card {
+      animation: fade-slide-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+
+    .song-card:nth-child(1) { animation-delay: 0.05s; }
+    .song-card:nth-child(2) { animation-delay: 0.1s; }
+    .song-card:nth-child(3) { animation-delay: 0.15s; }
+    .song-card:nth-child(4) { animation-delay: 0.2s; }
+    .song-card:nth-child(5) { animation-delay: 0.25s; }
+
+    .header {
+      animation: fade-slide-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+
+    /* ── Pulse on selected avatar ── */
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(209, 124, 63, 0.3); }
+      70% { box-shadow: 0 0 0 8px rgba(209, 124, 63, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(209, 124, 63, 0); }
+    }
+
+    .song-card.selected .song-avatar {
+      animation: pulse-ring 1.5s ease-out;
+    }
+
+    /* ── Responsive ── */
+    @media (min-width: 480px) {
+      .app-container {
+        padding: 0 24px;
+        padding-bottom: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container" id="app">
+  <!-- Hero Image -->
+  <div class="hero-image">
+    <img src="img/top.jpeg" alt="퍼펙트문해 캐릭터 이미지">
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18V5l12-2v13"/>
+        <circle cx="6" cy="18" r="3"/>
+        <circle cx="18" cy="16" r="3"/>
+      </svg>
+      VOTE NOW
+    </div>
+    <h1>퍼펙트 문해 로고송</h1>
+    <p>마음에 드는 음원에 투표해주세요.</p>
+  </header>
+
+  <!-- Song Cards -->
+  <div class="song-list" id="songList"></div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>© 2026 Perfect Literacy. All rights reserved.</p>
+    <button class="admin-btn" id="adminBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      관리자
+    </button>
+  </div>
+</div>
+
+<!-- Vote Bar -->
+<div class="vote-bar" id="voteBar">
+  <button class="vote-btn" id="voteBtn" onclick="submitVote()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+    투표하기
+  </button>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="closeSheet()"></div>
+
+<!-- Bottom Sheet -->
+<div class="bottom-sheet" id="bottomSheet">
+  <div class="bottom-sheet-handle"></div>
+  <div class="bottom-sheet-header">
+    <h3 id="sheetTitle">No.1</h3>
+    <p id="sheetSubtitle">밝고 경쾌한 동요 Pop 스타일</p>
+  </div>
+  <div class="bottom-sheet-body">
+    <div class="lyrics-text" id="lyricsContent"></div>
+  </div>
+  <button class="bottom-sheet-close" onclick="closeSheet()">닫기</button>
+</div>
+
+<!-- Admin Modal -->
+<div class="admin-modal" id="adminModal">
+  <div class="admin-modal-bg" onclick="closeAdmin()"></div>
+  <div class="admin-modal-content">
+    <h3>📊 투표 현황</h3>
+    <div class="admin-results" id="adminResults"></div>
+    <button class="admin-close-btn" onclick="closeAdmin()">닫기</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Song Data ──
+const songs = [
+  {
+    id: 1,
+    number: 'No.1',
+    title: '밝고 경쾌한 동요 Pop 스타일',
+    emoji: '🌿',
+    color: '#00B894',
+    audioUrl: 'song/1.mp3',
+    imageUrl: 'img/img_01.png',
+    lyrics: `퍼펙트! 퍼펙트! 퍼펙트문해!
+공부가 쉬워지는 초등 문해력 키우기
+긴 글은 술~술, 서술형 문제는 척!척!
+퍼펙트문해! 퍼펙트문해!
+문해력이 쑥쑥쑥!
+공부가 쉬워지는 초등 문해력 키우기
+퍼펙트문해와 함께해요! 예~!`
+  },
+  {
+    id: 2,
+    number: 'No.2',
+    title: '세련된 멜로디의 K-Pop 스타일',
+    emoji: '🦩',
+    color: '#E84393',
+    audioUrl: 'song/2.mp3',
+    imageUrl: 'img/img_02.png',
+    lyrics: `퍼펙트! 퍼펙트! 퍼펙트문해!
+읽고 쓰고 생각하는 힘을 키워요
+공부의 기본기를 탄탄하게!
+퍼펙트문해! 퍼펙트문해!
+문해력이 Up! Up! Up!
+공부의 자신감이 생겨나요
+퍼펙트문해와 함께 성장해요!`
+  },
+  {
+    id: 3,
+    number: 'No.3',
+    title: '귀에 쏙쏙 박히는 경쾌한 리듬의 로고송',
+    emoji: '🧡',
+    color: '#E17055',
+    audioUrl: 'song/3.mp3',
+    imageUrl: 'img/img_03.png',
+    lyrics: `퍼펙트 퍼펙트 퍼펙트문해!
+귀에 쏙쏙 머리에 쏙쏙
+문해력이 올라가요~
+술술 읽고 착착 이해하고
+초등 공부의 비밀은 바로
+퍼! 펙! 트! 문! 해!`
+  },
+  {
+    id: 4,
+    number: 'No.4',
+    title: '중독성 강한 멜로디의 키즈팝 스타일',
+    emoji: '⭐',
+    color: '#6C5CE7',
+    audioUrl: 'song/4.mp3',
+    imageUrl: 'img/img_04.png',
+    lyrics: `퍼펙트문해! 퍼펙트문해!
+한 번 들으면 멈출 수 없어~
+문해력이 팡팡팡!
+공부가 재밌어지는 마법
+긴 글도 문제없어요
+퍼펙트문해와 함께라면!
+예~ 예~ 예~!`
+  },
+  {
+    id: 5,
+    number: 'No.5',
+    title: '청량하고 깨끗한 K-Pop 발라드',
+    emoji: '🌸',
+    color: '#A29BFE',
+    audioUrl: 'song/5.mp3',
+    imageUrl: 'img/img_05.png',
+    lyrics: `맑은 하늘처럼 깨끗한 마음으로
+한 줄 한 줄 읽어가요
+공부가 어렵지 않아요
+퍼펙트문해가 함께하니까
+문해력이 자라나요
+나의 꿈도 함께 자라나요
+퍼펙트문해와 함께~`
+  }
+];
+
+// ── State ──
+let selectedId = null;
+let currentlyPlaying = null;
+let votes = JSON.parse(localStorage.getItem('votes') || '{}');
+
+// ── Render Cards ──
+function renderCards() {
+  const list = document.getElementById('songList');
+  list.innerHTML = '';
+  
+  songs.forEach(song => {
+    const card = document.createElement('div');
+    card.className = `song-card ${selectedId === song.id ? 'selected' : ''}`;
+    card.id = `card-${song.id}`;
+
+    card.innerHTML = `
+      <div class="song-card-top" onclick="selectSong(${song.id})">
+        <div class="song-avatar" style="background: ${song.color}15;">
+          <img src="${song.imageUrl}" alt="${song.number} thumbnail">
+        </div>
+        <div class="song-info">
+          <div class="song-number">${song.number}</div>
+          <div class="song-title">${song.title}</div>
+        </div>
+        <div class="song-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+      </div>
+      <div class="song-player">
+        <button class="play-btn" id="playBtn-${song.id}" onclick="event.stopPropagation(); togglePlay(${song.id})">
+          <svg id="playIcon-${song.id}" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="6,3 20,12 6,21"/>
+          </svg>
+        </button>
+        <div class="player-progress">
+          <div class="progress-bar-wrap" onclick="event.stopPropagation(); seekAudio(event, ${song.id})">
+            <div class="progress-bar-fill" id="progress-${song.id}"></div>
+          </div>
+          <div class="player-time" id="time-${song.id}">0:00 / 0:00</div>
+        </div>
+        <button class="lyrics-btn" onclick="event.stopPropagation(); openLyrics(${song.id})">가사</button>
+      </div>
+    `;
+    
+    list.appendChild(card);
+  });
+}
+
+// ── Song Selection ──
+function selectSong(id) {
+  selectedId = id;
+  
+  // Update card states
+  document.querySelectorAll('.song-card').forEach(card => {
+    card.classList.remove('selected');
+  });
+  
+  const selectedCard = document.getElementById(`card-${id}`);
+  if (selectedCard) {
+    selectedCard.classList.add('selected');
+  }
+  
+  // Show vote bar
+  const voteBar = document.getElementById('voteBar');
+  voteBar.classList.add('visible');
+}
+
+// ── Audio Playback ──
+const audioElements = {};
+
+function getAudio(id) {
+  if (!audioElements[id]) {
+    const song = songs.find(s => s.id === id);
+    audioElements[id] = new Audio(song.audioUrl);
+    audioElements[id].preload = 'metadata';
+    audioElements[id].addEventListener('timeupdate', () => updateProgress(id));
+    audioElements[id].addEventListener('ended', () => {
+      resetPlayButton(id);
+      currentlyPlaying = null;
+    });
+    audioElements[id].addEventListener('loadedmetadata', () => updateProgress(id));
+  }
+  return audioElements[id];
+}
+
+function togglePlay(id) {
+  // Stop currently playing
+  if (currentlyPlaying && currentlyPlaying !== id) {
+    const prevAudio = audioElements[currentlyPlaying];
+    if (prevAudio) {
+      prevAudio.pause();
+      resetPlayButton(currentlyPlaying);
+    }
+  }
+
+  const audio = getAudio(id);
+  const icon = document.getElementById(`playIcon-${id}`);
+  
+  if (audio.paused || audio.ended) {
+    // If no audio source, show a toast
+    if (!audio.src || audio.src === window.location.href) {
+      showToast('🎵 음원 준비 중입니다');
+      return;
+    }
+    audio.play();
+    icon.innerHTML = '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
+    currentlyPlaying = id;
+  } else {
+    audio.pause();
+    resetPlayButton(id);
+    currentlyPlaying = null;
+  }
+}
+
+function resetPlayButton(id) {
+  const icon = document.getElementById(`playIcon-${id}`);
+  if (icon) {
+    icon.innerHTML = '<polygon points="6,3 20,12 6,21"/>';
+  }
+}
+
+function updateProgress(id) {
+  const audio = audioElements[id];
+  if (!audio) return;
+  
+  const progress = document.getElementById(`progress-${id}`);
+  const timeEl = document.getElementById(`time-${id}`);
+  
+  if (audio.duration) {
+    const pct = (audio.currentTime / audio.duration) * 100;
+    if (progress) progress.style.width = pct + '%';
+    if (timeEl) timeEl.textContent = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration);
+  }
+}
+
+function seekAudio(e, id) {
+  const audio = getAudio(id);
+  if (!audio.duration) return;
+  
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  audio.currentTime = pct * audio.duration;
+}
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return m + ':' + String(s).padStart(2, '0');
+}
+
+// ── Vote ──
+function submitVote() {
+  if (!selectedId) {
+    showToast('투표할 곡을 선택해주세요');
+    return;
+  }
+
+  // Check if already voted
+  if (localStorage.getItem('hasVoted') === 'true') {
+    showToast('이미 투표하셨습니다! 감사합니다 🙏');
+    return;
+  }
+
+  // Save vote
+  const voteKey = `song_${selectedId}`;
+  votes[voteKey] = (votes[voteKey] || 0) + 1;
+  localStorage.setItem('votes', JSON.stringify(votes));
+  localStorage.setItem('hasVoted', 'true');
+
+  // Celebrate!
+  launchConfetti();
+  alert('투표가 완료되었습니다');
+
+  // Hide vote bar
+  setTimeout(() => {
+    document.getElementById('voteBar').classList.remove('visible');
+  }, 1500);
+}
+
+// ── Lyrics ──
+function openLyrics(id) {
+  const song = songs.find(s => s.id === id);
+  if (!song) return;
+
+  document.getElementById('sheetTitle').textContent = song.number;
+  document.getElementById('sheetSubtitle').textContent = song.title;
+  document.getElementById('lyricsContent').innerHTML = song.lyrics.split('\n').join('<br>');
+
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('bottomSheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSheet() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('bottomSheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── Admin ──
+document.getElementById('adminBtn').addEventListener('click', () => {
+  openAdmin();
+});
+
+function openAdmin() {
+  const modal = document.getElementById('adminModal');
+  const results = document.getElementById('adminResults');
+  results.innerHTML = '';
+
+  const allVotes = JSON.parse(localStorage.getItem('votes') || '{}');
+  let maxVote = 0;
+  songs.forEach(song => {
+    const count = allVotes[`song_${song.id}`] || 0;
+    if (count > maxVote) maxVote = count;
+  });
+
+  songs.forEach(song => {
+    const count = allVotes[`song_${song.id}`] || 0;
+    const pct = maxVote > 0 ? (count / maxVote) * 100 : 0;
+
+    const item = document.createElement('div');
+    item.className = 'admin-result-item';
+    item.innerHTML = `
+      <div class="admin-result-label">${song.number}</div>
+      <div class="admin-result-bar-wrap">
+        <div class="admin-result-bar" style="width: 0%; background: linear-gradient(90deg, ${song.color}, ${song.color}88);">
+          <span class="admin-result-count">${count}표</span>
+        </div>
+      </div>
+    `;
+    results.appendChild(item);
+
+    // Animate bar
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        item.querySelector('.admin-result-bar').style.width = Math.max(pct, 10) + '%';
+      }, 50);
+    });
+  });
+
+  modal.classList.add('open');
+}
+
+function closeAdmin() {
+  document.getElementById('adminModal').classList.remove('open');
+}
+
+// ── Toast ──
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ── Confetti ──
+function launchConfetti() {
+  const colors = ['#6C5CE7', '#A29BFE', '#FD79A8', '#FDCB6E', '#00B894', '#E17055'];
+  for (let i = 0; i < 40; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.left = Math.random() * 100 + 'vw';
+    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.width = (Math.random() * 8 + 6) + 'px';
+    confetti.style.height = (Math.random() * 8 + 6) + 'px';
+    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    confetti.style.animation = `confetti-fall ${Math.random() * 1.5 + 1.5}s ease-out forwards`;
+    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+    document.body.appendChild(confetti);
+    
+    setTimeout(() => confetti.remove(), 3000);
+  }
+}
+
+// ── Init ──
+renderCards();
+
+// Show vote bar if already voted (with message)
+if (localStorage.getItem('hasVoted') === 'true') {
+  // Already voted
+}
+</script>
+
+</body>
+</html>

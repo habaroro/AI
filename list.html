@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>퍼펙트문해 로고송 접수 명단</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #C57B43;
+            --primary-light: #E09A65;
+            --primary-dark: #A05B28;
+            --accent: #E8A869;
+            --bg-start: #FBF9F6;
+            --bg-end: #EFE8DE;
+            --card-bg: #FFFFFF;
+            --card-border: rgba(180, 160, 140, 0.2);
+            --text-primary: #38312B;
+            --text-secondary: #7A6F66;
+            --text-muted: #A39A90;
+            --shadow-md: 0 8px 32px rgba(100, 80, 60, 0.06);
+            --radius: 20px;
+            --radius-sm: 14px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(160deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            padding-bottom: 40px;
+        }
+
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-top: 20px;
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(197, 123, 67, 0.1);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+        .subtitle { font-size: 14px; color: var(--text-secondary); }
+
+        .stats-bar {
+            background: white;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--card-border);
+        }
+
+        .stats-info { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+        .stats-count { color: var(--primary); font-weight: 800; font-size: 18px; margin-left: 4px; }
+
+        .refresh-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all var(--transition);
+        }
+
+        .refresh-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+        .submission-list { display: flex; flex-direction: column; gap: 16px; }
+
+        .submission-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition);
+        }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .user-name { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; }
+        .song-title { font-size: 14px; color: var(--primary); font-weight: 600; }
+        .date-time { font-size: 11px; color: var(--text-muted); }
+
+        .song-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 12px 0;
+            padding: 10px;
+            background: var(--bg-start);
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-light);
+        }
+
+        /* Audio Player Mini */
+        .player-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #FDFBFA;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(197, 123, 67, 0.1);
+        }
+
+        .play-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(197, 123, 67, 0.2);
+        }
+
+        .play-btn svg { width: 18px; height: 18px; }
+
+        .progress-container { flex: 1; }
+        .progress-bar { width: 100%; height: 6px; background: rgba(0,0,0,0.05); border-radius: 3px; overflow: hidden; cursor: pointer; position: relative; }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.1s linear; }
+
+        .time-info { font-size: 11px; color: var(--text-muted); margin-top: 4px; display: flex; justify-content: space-between; }
+
+        /* Navigation */
+        .nav-links { margin-top: 40px; display: flex; gap: 12px; justify-content: center; }
+        .nav-btn {
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all var(--transition);
+        }
+        .btn-home { background: white; color: var(--text-secondary); border: 1px solid var(--card-border); }
+        .btn-reg { background: rgba(197, 123, 67, 0.1); color: var(--primary); }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+        /* Loading & Empty */
+        .status-center { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+        .loading-spinner {
+            width: 40px; height: 40px; border: 3px solid rgba(197, 123, 67, 0.1); border-top-color: var(--primary);
+            border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 480px) {
+            .app-container { padding: 16px; }
+            h1 { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <div class="header-badge">SUBMISSIONS</div>
+            <h1>공모전 접수 현황</h1>
+            <p class="subtitle">접수된 모든 곡을 한눈에 확인하세요.</p>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stats-info">총 접수 건수: <span class="stats-count" id="totalCount">0</span></div>
+            <button class="refresh-btn" onclick="fetchSubmissions()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                새로고침
+            </button>
+        </div>
+
+        <div id="loading" class="status-center">
+            <div class="loading-spinner"></div>
+            <p>데이터를 불러오는 중입니다...</p>
+        </div>
+
+        <div id="empty" class="status-center" style="display: none;">
+            <p>아직 접수된 내역이 없습니다.</p>
+        </div>
+
+        <div class="submission-list" id="submissionList"></div>
+
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn btn-home">메인 투표</a>
+            <a href="register.html" class="nav-btn btn-reg">추가 접수하기</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ── Supabase 초기화 ──
+        const SUPABASE_URL = 'https://biibtfdpchcdlpfimimh.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_yDCKYS2CXf3-WGzgpJ_pQA_pTF_p68p';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } });
+
+        let audioElements = {};
+        let currentlyPlaying = null;
+
+        async function fetchSubmissions() {
+            const listEl = document.getElementById('submissionList');
+            const loadingEl = document.getElementById('loading');
+            const emptyEl = document.getElementById('empty');
+            const totalCountEl = document.getElementById('totalCount');
+
+            loadingEl.style.display = 'block';
+            emptyEl.style.display = 'none';
+            listEl.innerHTML = '';
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('submissions')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                totalCountEl.textContent = data.length;
+
+                if (data.length === 0) {
+                    emptyEl.style.display = 'block';
+                } else {
+                    data.forEach(item => {
+                        const card = createCard(item);
+                        listEl.appendChild(card);
+                    });
+                }
+            } catch (err) {
+                console.error('Fetch error:', err);
+                alert('데이터를 가져오는데 실패했습니다.');
+            } finally {
+                loadingEl.style.display = 'none';
+            }
+        }
+
+        function createCard(item) {
+            const date = new Date(item.created_at).toLocaleString('ko-KR', {
+                month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+            
+            const div = document.createElement('div');
+            div.className = 'submission-card';
+            div.innerHTML = `
+                <div class="card-header">
+                    <div>
+                        <div class="user-name">${item.user_name}</div>
+                        <div class="song-title">🎵 ${item.song_title}</div>
+                    </div>
+                    <div class="date-time">${date}</div>
+                </div>
+                ${item.song_desc ? `<div class="song-desc">${item.song_desc}</div>` : ''}
+                <div class="player-wrap">
+                    <button class="play-btn" id="btn-${item.id}" onclick="togglePlay('${item.id}', '${item.audio_url}')">
+                        <svg id="icon-${item.id}" viewBox="0 0 24 24" fill="currentColor">
+                           <polygon points="5 3 19 12 5 21"/>
+                        </svg>
+                    </button>
+                    <div class="progress-container">
+                        <div class="progress-bar" onclick="seekAudio(event, '${item.id}')">
+                            <div class="progress-fill" id="fill-${item.id}"></div>
+                        </div>
+                        <div class="time-info">
+                            <span id="current-${item.id}">00:00</span>
+                            <span id="duration-${item.id}">00:00</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return div;
+        }
+
+        function togglePlay(id, url) {
+            if (currentlyPlaying && currentlyPlaying !== id) {
+                const prevAudio = audioElements[currentlyPlaying];
+                prevAudio.pause();
+                updateIcon(currentlyPlaying, false);
+            }
+
+            if (!audioElements[id]) {
+                const audio = new Audio(url);
+                audio.addEventListener('timeupdate', () => updateProgress(id));
+                audio.addEventListener('ended', () => {
+                    updateIcon(id, false);
+                    currentlyPlaying = null;
+                });
+                audio.addEventListener('loadedmetadata', () => {
+                    document.getElementById(`duration-${id}`).textContent = formatTime(audio.duration);
+                });
+                audioElements[id] = audio;
+            }
+
+            const audio = audioElements[id];
+            if (audio.paused) {
+                audio.play();
+                updateIcon(id, true);
+                currentlyPlaying = id;
+            } else {
+                audio.pause();
+                updateIcon(id, false);
+                currentlyPlaying = null;
+            }
+        }
+
+        function updateIcon(id, isPlaying) {
+            const icon = document.getElementById(`icon-${id}`);
+            if (isPlaying) {
+                icon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+            } else {
+                icon.innerHTML = '<polygon points="5 3 19 12 5 21"/>';
+            }
+        }
+
+        function updateProgress(id) {
+            const audio = audioElements[id];
+            const fill = document.getElementById(`fill-${id}`);
+            const current = document.getElementById(`current-${id}`);
+            
+            const pct = (audio.currentTime / audio.duration) * 100;
+            fill.style.width = pct + '%';
+            current.textContent = formatTime(audio.currentTime);
+        }
+
+        function seekAudio(e, id) {
+            const audio = audioElements[id];
+            if (!audio) return;
+            const rect = e.currentTarget.getBoundingClientRect();
+            const pct = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = pct * audio.duration;
+        }
+
+        function formatTime(sec) {
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        }
+
+        // 초기 실행
+        fetchSubmissions();
+    </script>
+</body>
+</html>
