@@ -225,7 +225,12 @@
         // ── Supabase 초기화 ──
         const SUPABASE_URL = 'https://biibtfdpchcdlpfimimh.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_yDCKYS2CXf3-WGzgpJ_pQA_pTF_p68p';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } });
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { 
+            auth: { 
+                persistSession: false,
+                detectSessionInUrl: false
+            } 
+        });
 
         let audioElements = {};
         let currentlyPlaying = null;
