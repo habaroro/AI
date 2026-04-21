@@ -8,23 +8,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #C57B43;
-            --primary-light: #E09A65;
-            --primary-dark: #A05B28;
-            --accent: #E8A869;
-            --bg-start: #FBF9F6;
-            --bg-end: #EFE8DE;
-            --card-bg: #FFFFFF;
-            --card-border: rgba(180, 160, 140, 0.2);
-            --text-primary: #38312B;
-            --text-secondary: #7A6F66;
-            --text-muted: #A39A90;
-            --shadow-md: 0 8px 32px rgba(100, 80, 60, 0.06);
-            --radius: 20px;
-            --radius-sm: 14px;
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+    :root {
+        --primary: #2563EB;
+        --primary-light: #60A5FA;
+        --primary-dark: #1E40AF;
+        --accent: #0EA5E9;
+        --bg-start: #F8FAFC;
+        --bg-end: #F1F5F9;
+        --card-bg: #FFFFFF;
+        --card-border: rgba(37, 99, 235, 0.1);
+        --text-primary: #0F172A;
+        --text-secondary: #475569;
+        --text-muted: #94A3B8;
+        --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.06);
+        --radius: 20px;
+        --radius-sm: 14px;
+        --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -52,7 +52,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(197, 123, 67, 0.1);
+            background: rgba(37, 99, 235, 0.1);
             color: var(--primary);
             font-size: 12px;
             font-weight: 700;
@@ -132,7 +132,7 @@
             background: #FDFBFA;
             padding: 12px;
             border-radius: 12px;
-            border: 1px solid rgba(197, 123, 67, 0.1);
+            border: 1px solid rgba(37, 99, 235, 0.1);
         }
 
         .play-btn {
@@ -147,7 +147,7 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(197, 123, 67, 0.2);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
         }
 
         .play-btn svg { width: 18px; height: 18px; }
@@ -169,13 +169,13 @@
             transition: all var(--transition);
         }
         .btn-home { background: white; color: var(--text-secondary); border: 1px solid var(--card-border); }
-        .btn-reg { background: rgba(197, 123, 67, 0.1); color: var(--primary); }
+        .btn-reg { background: rgba(37, 99, 235, 0.1); color: var(--primary); }
         .nav-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
         /* Loading & Empty */
         .status-center { text-align: center; padding: 60px 20px; color: var(--text-muted); }
         .loading-spinner {
-            width: 40px; height: 40px; border: 3px solid rgba(197, 123, 67, 0.1); border-top-color: var(--primary);
+            width: 40px; height: 40px; border: 3px solid rgba(37, 99, 235, 0.1); border-top-color: var(--primary);
             border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }

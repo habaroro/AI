@@ -10,23 +10,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #C57B43;
-      --primary-light: #E09A65;
-      --primary-dark: #A05B28;
-      --accent: #E8A869;
-      --accent-light: #F2D2A9;
-      --bg-start: #FBF9F6;
-      --bg-end: #EFE8DE;
+      --primary: #2563EB;
+      --primary-light: #60A5FA;
+      --primary-dark: #1E40AF;
+      --accent: #0EA5E9;
+      --accent-light: #BAE6FD;
+      --bg-start: #F8FAFC;
+      --bg-end: #F1F5F9;
       --card-bg: #FFFFFF;
-      --card-border: rgba(180, 160, 140, 0.2);
-      --card-selected-bg: #FFFDF9;
-      --card-selected-border: #C57B43;
-      --text-primary: #38312B;
-      --text-secondary: #7A6F66;
-      --text-muted: #A39A90;
-      --shadow-sm: 0 4px 16px rgba(100, 80, 60, 0.04);
-      --shadow-md: 0 8px 32px rgba(100, 80, 60, 0.06);
-      --shadow-lg: 0 16px 48px rgba(100, 80, 60, 0.08);
+      --card-border: rgba(37, 99, 235, 0.1);
+      --card-selected-bg: #F0F7FF;
+      --card-selected-border: #2563EB;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #94A3B8;
+      --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 16px 48px rgba(15, 23, 42, 0.08);
       --radius: 20px;
       --radius-sm: 14px;
       --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -85,7 +85,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(209, 124, 63, 0.1);
+      background: rgba(37, 99, 235, 0.1);
       color: var(--primary);
       font-size: 12px;
       font-weight: 600;
@@ -145,7 +145,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(135deg, rgba(209, 124, 63, 0.05) 0%, transparent 50%);
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
       opacity: 0;
       transition: opacity var(--transition);
       pointer-events: none;
@@ -154,7 +154,7 @@
     .song-card:hover {
       transform: translateY(-2px);
       box-shadow: var(--shadow-md);
-      border-color: rgba(209, 124, 63, 0.2);
+      border-color: rgba(37, 99, 235, 0.2);
     }
 
     .song-card:hover::before {
@@ -168,12 +168,12 @@
     .song-card.selected {
       background: var(--card-selected-bg);
       border-color: var(--card-selected-border);
-      box-shadow: 0 0 0 3px rgba(209, 124, 63, 0.1), var(--shadow-md);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), var(--shadow-md);
     }
 
     .song-card.selected::before {
       opacity: 1;
-      background: linear-gradient(135deg, rgba(209, 124, 63, 0.06) 0%, rgba(228, 162, 108, 0.04) 100%);
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.06) 0%, rgba(52, 144, 255, 0.04) 100%);
     }
 
     .song-card-top {
@@ -247,7 +247,7 @@
     .song-card.selected .song-check {
       background: var(--primary);
       border-color: var(--primary);
-      box-shadow: 0 2px 8px rgba(209, 124, 63, 0.3);
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
     }
 
     .song-card.selected .song-check svg {
@@ -305,7 +305,7 @@
     .progress-bar-wrap {
       width: 100%;
       height: 4px;
-      background: rgba(209, 124, 63, 0.1);
+      background: rgba(37, 99, 235, 0.1);
       border-radius: 2px;
       overflow: hidden;
       cursor: pointer;
@@ -339,7 +339,7 @@
     }
 
     .lyrics-btn:hover {
-      background: rgba(209, 124, 63, 0.08);
+      background: rgba(37, 99, 235, 0.08);
     }
 
     /* ── Vote Button (Sticky) ── */
@@ -380,7 +380,7 @@
       border: none;
       border-radius: 16px;
       cursor: pointer;
-      box-shadow: 0 8px 24px rgba(209, 124, 63, 0.35);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
       transition: all var(--transition);
       position: relative;
       overflow: hidden;
@@ -403,7 +403,7 @@
 
     .vote-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(209, 124, 63, 0.4);
+      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.4);
     }
 
     .vote-btn:active {
