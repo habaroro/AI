@@ -495,7 +495,7 @@
     <div class="app-container">
 
         <div class="hero-image">
-            <img src="img/top.jpeg" alt="퍼펙트문해 캐릭터 코지 이미지">
+            <img src="img/top.png" alt="퍼펙트문해 캐릭터 코지 이미지">
         </div>
 
         <header class="header">
@@ -624,7 +624,12 @@
             supabaseClient = supabase.createClient(
                 'https://biibtfdpchcdlpfimimh.supabase.co',
                 'sb_publishable_yDCKYS2CXf3-WGzgpJ_pQA_pTF_p68p',
-                { auth: { persistSession: false } }
+                { 
+                    auth: { 
+                        persistSession: false,
+                        detectSessionInUrl: false
+                    } 
+                }
             );
         } catch (e) {
             console.warn('Supabase init warn:', e);
