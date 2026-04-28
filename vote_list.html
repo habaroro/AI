@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>퍼펙트문해 공모전 투표하기</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-light: #60A5FA;
+            --primary-dark: #1E40AF;
+            --accent: #0EA5E9;
+            --bg-start: #F8FAFC;
+            --bg-end: #F1F5F9;
+            --card-bg: #FFFFFF;
+            --card-border: rgba(37, 99, 235, 0.1);
+            --card-selected-bg: #F0F7FF;
+            --card-selected-border: #2563EB;
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #94A3B8;
+            --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.06);
+            --radius: 20px;
+            --radius-sm: 14px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(160deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            padding-bottom: 120px;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-top: 20px;
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+        .subtitle { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+
+        .stats-bar {
+            background: white;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--card-border);
+        }
+
+        .stats-info { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+        .stats-count { color: var(--primary); font-weight: 800; font-size: 18px; margin-left: 4px; }
+
+        .submission-list { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 16px; 
+        }
+
+        @media (min-width: 768px) {
+            .submission-list {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 24px;
+            }
+        }
+
+        .song-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .song-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+
+        .song-card.selected {
+            background: var(--card-selected-bg);
+            border-color: var(--card-selected-border);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1), var(--shadow-md);
+        }
+
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .song-title { font-size: 16px; font-weight: 700; color: var(--primary); flex: 1; }
+        
+        .song-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #CBD5E1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+        }
+
+        .song-card.selected .song-check {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .song-check svg {
+            width: 14px;
+            height: 14px;
+            color: white;
+            display: none;
+        }
+
+        .song-card.selected .song-check svg { display: block; }
+
+        .song-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 12px 0;
+            padding: 10px;
+            background: var(--bg-start);
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-light);
+        }
+
+        /* Audio Player */
+        .player-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #FDFBFA;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            margin-top: 12px;
+        }
+
+        .play-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .play-btn svg { width: 18px; height: 18px; }
+
+        .progress-container { flex: 1; }
+        .progress-bar { width: 100%; height: 6px; background: rgba(0,0,0,0.05); border-radius: 3px; overflow: hidden; cursor: pointer; position: relative; }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.1s linear; }
+
+        .time-info { font-size: 11px; color: var(--text-muted); margin-top: 4px; display: flex; justify-content: space-between; }
+
+        /* Vote Bar */
+        .vote-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px;
+            padding-bottom: max(20px, env(safe-area-inset-bottom));
+            background: linear-gradient(to top, rgba(248, 250, 252, 0.98) 60%, rgba(248, 250, 252, 0) 100%);
+            display: flex;
+            justify-content: center;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .vote-bar.visible { transform: translateY(0); }
+
+        .vote-btn {
+            width: 100%;
+            max-width: 480px;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Loading & Empty */
+        .status-center { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+        .loading-spinner {
+            width: 40px; height: 40px; border: 3px solid rgba(37, 99, 235, 0.1); border-top-color: var(--primary);
+            border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 480px) {
+            .app-container { padding: 16px; }
+            h1 { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <div class="header-badge">VOTING LIST</div>
+            <h1>공모전 투표하기</h1>
+            <p class="subtitle">접수된 소중한 곡들입니다.<br>가장 마음에 드는 곡에 투표해주세요!</p>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stats-info">총 후보 곡: <span class="stats-count" id="totalCount">0</span></div>
+        </div>
+
+        <div id="loading" class="status-center">
+            <div class="loading-spinner"></div>
+            <p>곡들을 불러오는 중입니다...</p>
+        </div>
+
+        <div id="empty" class="status-center" style="display: none;">
+            <p>아직 등록된 곡이 없습니다.</p>
+        </div>
+
+        <div class="submission-list" id="submissionList"></div>
+    </div>
+
+    <div class="vote-bar" id="voteBar">
+        <button class="vote-btn" onclick="submitVote()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="20" height="20">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            투표하기
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://biibtfdpchcdlpfimimh.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_yDCKYS2CXf3-WGzgpJ_pQA_pTF_p68p';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { 
+            auth: { persistSession: false, detectSessionInUrl: false } 
+        });
+
+        let audioElements = {};
+        let currentlyPlaying = null;
+        let selectedId = null;
+
+        async function fetchSubmissions() {
+            const listEl = document.getElementById('submissionList');
+            const loadingEl = document.getElementById('loading');
+            const emptyEl = document.getElementById('empty');
+            const totalCountEl = document.getElementById('totalCount');
+
+            loadingEl.style.display = 'block';
+            listEl.innerHTML = '';
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('submissions')
+                    .select('*')
+                    .order('song_title', { ascending: true });
+
+                if (error) throw error;
+
+                totalCountEl.textContent = data.length;
+
+                if (data.length === 0) {
+                    emptyEl.style.display = 'block';
+                } else {
+                    data.forEach(item => {
+                        const card = createCard(item);
+                        listEl.appendChild(card);
+                    });
+                }
+            } catch (err) {
+                console.error('Fetch error:', err);
+                alert('데이터를 가져오는데 실패했습니다.');
+            } finally {
+                loadingEl.style.display = 'none';
+            }
+        }
+
+        function createCard(item) {
+            const div = document.createElement('div');
+            div.className = 'song-card';
+            div.id = `card-${item.id}`;
+            div.onclick = () => selectSong(item.id);
+            
+            div.innerHTML = `
+                <div class="card-header">
+                    <div class="song-title">🎵 ${item.song_title}</div>
+                    <div class="song-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                </div>
+                ${item.song_desc ? `<div class="song-desc">${item.song_desc}</div>` : ''}
+                <div class="player-wrap" onclick="event.stopPropagation()">
+                    <button class="play-btn" id="btn-${item.id}" onclick="togglePlay('${item.id}', '${item.audio_url}')">
+                        <svg id="icon-${item.id}" viewBox="0 0 24 24" fill="currentColor">
+                           <polygon points="5 3 19 12 5 21"/>
+                        </svg>
+                    </button>
+                    <div class="progress-container">
+                        <div class="progress-bar" onclick="seekAudio(event, '${item.id}')">
+                            <div class="progress-fill" id="fill-${item.id}"></div>
+                        </div>
+                        <div class="time-info">
+                            <span id="current-${item.id}">00:00</span>
+                            <span id="duration-${item.id}">00:00</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return div;
+        }
+
+        function selectSong(id) {
+            if (selectedId === id) return;
+            
+            selectedId = id;
+            document.querySelectorAll('.song-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById(`card-${id}`).classList.add('selected');
+            
+            document.getElementById('voteBar').classList.add('visible');
+        }
+
+        function togglePlay(id, url) {
+            if (currentlyPlaying && currentlyPlaying !== id) {
+                const prevAudio = audioElements[currentlyPlaying];
+                prevAudio.pause();
+                updateIcon(currentlyPlaying, false);
+            }
+
+            if (!audioElements[id]) {
+                const audio = new Audio(url);
+                audio.addEventListener('timeupdate', () => updateProgress(id));
+                audio.addEventListener('ended', () => {
+                    updateIcon(id, false);
+                    currentlyPlaying = null;
+                });
+                audio.addEventListener('loadedmetadata', () => {
+                    document.getElementById(`duration-${id}`).textContent = formatTime(audio.duration);
+                });
+                audioElements[id] = audio;
+            }
+
+            const audio = audioElements[id];
+            if (audio.paused) {
+                audio.play();
+                updateIcon(id, true);
+                currentlyPlaying = id;
+            } else {
+                audio.pause();
+                updateIcon(id, false);
+                currentlyPlaying = null;
+            }
+        }
+
+        function updateIcon(id, isPlaying) {
+            const icon = document.getElementById(`icon-${id}`);
+            if (isPlaying) {
+                icon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+            } else {
+                icon.innerHTML = '<polygon points="5 3 19 12 5 21"/>';
+            }
+        }
+
+        function updateProgress(id) {
+            const audio = audioElements[id];
+            const fill = document.getElementById(`fill-${id}`);
+            const current = document.getElementById(`current-${id}`);
+            if (audio.duration) {
+                const pct = (audio.currentTime / audio.duration) * 100;
+                fill.style.width = pct + '%';
+                current.textContent = formatTime(audio.currentTime);
+            }
+        }
+
+        function seekAudio(e, id) {
+            const audio = audioElements[id];
+            if (!audio || !audio.duration) return;
+            const rect = e.currentTarget.getBoundingClientRect();
+            const pct = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = pct * audio.duration;
+        }
+
+        function formatTime(sec) {
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        }
+
+        async function submitVote() {
+            if (!selectedId) return;
+
+            if (localStorage.getItem('hasVotedSubmissions') === 'true') {
+                alert('이미 투표하셨습니다. 감사합니다!');
+                return;
+            }
+
+            const votes = JSON.parse(localStorage.getItem('submissionVotes') || '{}');
+            votes[selectedId] = (votes[selectedId] || 0) + 1;
+            
+            localStorage.setItem('submissionVotes', JSON.stringify(votes));
+            localStorage.setItem('hasVotedSubmissions', 'true');
+
+            alert('투표가 완료되었습니다! 감사합니다.');
+            document.getElementById('voteBar').classList.remove('visible');
+        }
+
+        fetchSubmissions();
+    </script>
+</body>
+</html>
