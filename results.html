@@ -282,6 +282,28 @@
         .refresh-btn:active { transform: scale(0.98); }
         .refresh-btn svg { width: 18px; height: 18px; }
 
+        .reset-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            padding: 12px;
+            background: #FFF1F2;
+            color: #E11D48;
+            border: 1px solid #FECDD3;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            margin-top: 12px;
+            opacity: 0.8;
+        }
+
+        .reset-btn:hover { background: #FFE4E6; opacity: 1; transform: translateY(-1px); }
+        .reset-btn svg { width: 14px; height: 14px; }
+
         /* Back Link */
         .back-link {
             display: inline-flex;
@@ -367,6 +389,13 @@
                 <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
             </svg>
             새로고침
+        </button>
+        
+        <button class="reset-btn" onclick="resetVotes()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+            모든 투표 데이터 초기화
         </button>
 
         <div style="text-align:center; margin-top: 20px;">
@@ -467,6 +496,18 @@
             });
 
             return div;
+        }
+
+        function resetVotes() {
+            if (!confirm('정말로 모든 투표 데이터를 초기화하시겠습니까?\n이 작업은 되돌릴 수 없으며 현재 브라우저에 저장된 모든 투표수가 삭제됩니다.')) {
+                return;
+            }
+            
+            localStorage.removeItem('submissionVotes');
+            localStorage.removeItem('hasVotedSubmissions');
+            
+            alert('초기화가 완료되었습니다.');
+            loadAll();
         }
 
         // Init
