@@ -489,8 +489,8 @@
 
             let html = `<div class="section-title"><div class="icon">${title.charAt(0)}</div>${title}</div>`;
 
-            if (items.length === 0 || items.every(i => i.count === 0)) {
-                html += `<div class="empty-state"><div class="icon">📭</div><p>아직 투표 결과가 없습니다</p></div>`;
+            if (items.length === 0) {
+                html += `<div class="empty-state"><div class="icon">📭</div><p>아직 등록된 곡이 없습니다</p></div>`;
             } else {
                 const maxCount = Math.max(...items.map(i => i.count), 1);
                 items.forEach((item, idx) => {

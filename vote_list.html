@@ -247,7 +247,7 @@
         <header>
             <div class="header-badge">VOTING LIST</div>
             <h1>공모전 투표하기</h1>
-            <p class="subtitle">접수된 소중한 곡들입니다.<br>가장 마음에 드는 곡에 투표해주세요!</p>
+            <p class="subtitle">접수된 소중한 곡들입니다.<br>마음에 드는 곡 <strong>3개</strong>를 선택해 주세요!</p>
         </header>
 
         <div class="stats-bar">
@@ -271,7 +271,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="20" height="20">
                 <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
-            투표하기
+            투표하기 (<span id="selectedCount">0</span>/3)
         </button>
     </div>
 
@@ -285,7 +285,7 @@
 
         let audioElements = {};
         let currentlyPlaying = null;
-        let selectedId = null;
+        let selectedIds = [];
 
         async function fetchSubmissions() {
             const listEl = document.getElementById('submissionList');
@@ -359,20 +359,40 @@
         }
 
         function selectSong(id) {
-            if (selectedId === id) return;
+            const index = selectedIds.indexOf(id);
+            const card = document.getElementById(`card-${id}`);
+
+            if (index > -1) {
+                // Deselect
+                selectedIds.splice(index, 1);
+                card.classList.remove('selected');
+            } else {
+                // Select
+                if (selectedIds.length >= 3) {
+                    alert('최대 3곡까지만 선택할 수 있습니다.');
+                    return;
+                }
+                selectedIds.push(id);
+                card.classList.add('selected');
+            }
             
-            selectedId = id;
-            document.querySelectorAll('.song-card').forEach(c => c.classList.remove('selected'));
-            document.getElementById(`card-${id}`).classList.add('selected');
-            
-            document.getElementById('voteBar').classList.add('visible');
+            // Update UI
+            document.getElementById('selectedCount').textContent = selectedIds.length;
+            const voteBar = document.getElementById('voteBar');
+            if (selectedIds.length === 3) {
+                voteBar.classList.add('visible');
+            } else {
+                voteBar.classList.remove('visible');
+            }
         }
 
         function togglePlay(id, url) {
             if (currentlyPlaying && currentlyPlaying !== id) {
                 const prevAudio = audioElements[currentlyPlaying];
-                prevAudio.pause();
-                updateIcon(currentlyPlaying, false);
+                if (prevAudio) {
+                    prevAudio.pause();
+                    updateIcon(currentlyPlaying, false);
+                }
             }
 
             if (!audioElements[id]) {
@@ -413,7 +433,7 @@
             const audio = audioElements[id];
             const fill = document.getElementById(`fill-${id}`);
             const current = document.getElementById(`current-${id}`);
-            if (audio.duration) {
+            if (audio && audio.duration) {
                 const pct = (audio.currentTime / audio.duration) * 100;
                 fill.style.width = pct + '%';
                 current.textContent = formatTime(audio.currentTime);
@@ -435,21 +455,43 @@
         }
 
         async function submitVote() {
-            if (!selectedId) return;
+            if (selectedIds.length !== 3) {
+                alert('3곡을 모두 선택해 주세요.');
+                return;
+            }
 
             if (localStorage.getItem('hasVotedSubmissions') === 'true') {
                 alert('이미 투표하셨습니다. 감사합니다!');
                 return;
             }
 
-            const votes = JSON.parse(localStorage.getItem('submissionVotes') || '{}');
-            votes[selectedId] = (votes[selectedId] || 0) + 1;
-            
-            localStorage.setItem('submissionVotes', JSON.stringify(votes));
-            localStorage.setItem('hasVotedSubmissions', 'true');
+            if (!confirm('선택하신 3곡으로 투표를 완료하시겠습니까?')) {
+                return;
+            }
 
-            alert('투표가 완료되었습니다! 감사합니다.');
-            document.getElementById('voteBar').classList.remove('visible');
+            try {
+                // Supabase에 투표 데이터 저장
+                const voteData = selectedIds.map(id => ({ submission_id: id }));
+                const { error } = await supabaseClient
+                    .from('votes')
+                    .insert(voteData);
+
+                if (error) throw error;
+
+                // 로컬에는 투표 여부만 기록
+                localStorage.setItem('hasVotedSubmissions', 'true');
+
+                alert('투표가 완료되었습니다! 감사합니다.');
+                document.getElementById('voteBar').classList.remove('visible');
+                
+                // 선택 초기화 및 UI 반영
+                selectedIds = [];
+                document.querySelectorAll('.song-card').forEach(c => c.classList.remove('selected'));
+                document.getElementById('selectedCount').textContent = '0';
+            } catch (err) {
+                console.error('Vote error:', err);
+                alert('투표를 저장하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+            }
         }
 
         fetchSubmissions();
