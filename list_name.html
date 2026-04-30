@@ -37,7 +37,7 @@
         }
 
         .app-container {
-            max-width: 600px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 24px 20px;
         }
@@ -97,7 +97,18 @@
 
         .refresh-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
 
-        .submission-list { display: flex; flex-direction: column; gap: 16px; }
+        .submission-list { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 16px; 
+        }
+
+        @media (min-width: 768px) {
+            .submission-list {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 24px;
+            }
+        }
 
         .submission-card {
             background: var(--card-bg);
