@@ -467,21 +467,28 @@
                 return;
             }
 
-            const votes = JSON.parse(localStorage.getItem('submissionVotes') || '{}');
-            
-            selectedIds.forEach(id => {
-                votes[id] = (votes[id] || 0) + 1;
-            });
-            
-            localStorage.setItem('submissionVotes', JSON.stringify(votes));
-            localStorage.setItem('hasVotedSubmissions', 'true');
+            try {
+                // Supabase에 투표 데이터 저장
+                const voteData = selectedIds.map(id => ({ submission_id: id }));
+                const { error } = await supabaseClient
+                    .from('votes')
+                    .insert(voteData);
 
-            alert('투표가 완료되었습니다! 감사합니다.');
-            document.getElementById('voteBar').classList.remove('visible');
-            
-            // 선택 초기화 및 UI 반영
-            selectedIds = [];
-            document.querySelectorAll('.song-card').forEach(c => c.classList.remove('selected'));
+                if (error) throw error;
+
+                // 로컬에는 투표 여부만 기록
+                localStorage.setItem('hasVotedSubmissions', 'true');
+
+                alert('투표가 완료되었습니다! 감사합니다.');
+                document.getElementById('voteBar').classList.remove('visible');
+                
+                // 선택 초기화 및 UI 반영
+                selectedIds = [];
+                document.querySelectorAll('.song-card').forEach(c => c.classList.remove('selected'));
+            } catch (err) {
+                console.error('Vote error:', err);
+                alert('투표를 저장하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+            }
         }
 
         fetchSubmissions();
