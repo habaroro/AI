@@ -66,6 +66,17 @@
 
         h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
         .subtitle { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+        .subtitle .highlight { 
+            color: var(--primary); 
+            font-weight: 700; 
+            display: block; 
+            margin-top: 8px; 
+            font-size: 15px;
+            background: rgba(37, 99, 235, 0.05);
+            padding: 4px 12px;
+            border-radius: 8px;
+            display: inline-block;
+        }
 
         .stats-bar {
             background: white;
@@ -247,7 +258,7 @@
         <header>
             <div class="header-badge">VOTING LIST</div>
             <h1>공모전 투표하기</h1>
-            <p class="subtitle">접수된 소중한 곡들입니다.<br>마음에 드는 곡 <strong>3개</strong>를 선택해 주세요!</p>
+            <p class="subtitle">접수된 소중한 곡들입니다.<br><span class="highlight">마음에 드는 곡 <strong>3개</strong>를 선택해 주세요!</span></p>
         </header>
 
         <div class="stats-bar">
@@ -360,39 +371,37 @@
 
         function selectSong(id) {
             const index = selectedIds.indexOf(id);
-            const card = document.getElementById(`card-${id}`);
-
+            
             if (index > -1) {
-                // Deselect
+                // 이미 선택된 경우 해제
                 selectedIds.splice(index, 1);
-                card.classList.remove('selected');
+                document.getElementById(`card-${id}`).classList.remove('selected');
             } else {
-                // Select
+                // 새 곡 선택 (최대 3개)
                 if (selectedIds.length >= 3) {
-                    alert('최대 3곡까지만 선택할 수 있습니다.');
+                    alert('최대 3곡까지만 선택 가능합니다.');
                     return;
                 }
                 selectedIds.push(id);
-                card.classList.add('selected');
+                document.getElementById(`card-${id}`).classList.add('selected');
             }
             
-            // Update UI
-            document.getElementById('selectedCount').textContent = selectedIds.length;
-            const voteBar = document.getElementById('voteBar');
+            // UI 업데이트
+            const countEl = document.getElementById('selectedCount');
+            if (countEl) countEl.textContent = selectedIds.length;
+            
             if (selectedIds.length === 3) {
-                voteBar.classList.add('visible');
+                document.getElementById('voteBar').classList.add('visible');
             } else {
-                voteBar.classList.remove('visible');
+                document.getElementById('voteBar').classList.remove('visible');
             }
         }
 
         function togglePlay(id, url) {
             if (currentlyPlaying && currentlyPlaying !== id) {
                 const prevAudio = audioElements[currentlyPlaying];
-                if (prevAudio) {
-                    prevAudio.pause();
-                    updateIcon(currentlyPlaying, false);
-                }
+                prevAudio.pause();
+                updateIcon(currentlyPlaying, false);
             }
 
             if (!audioElements[id]) {
@@ -433,7 +442,7 @@
             const audio = audioElements[id];
             const fill = document.getElementById(`fill-${id}`);
             const current = document.getElementById(`current-${id}`);
-            if (audio && audio.duration) {
+            if (audio.duration) {
                 const pct = (audio.currentTime / audio.duration) * 100;
                 fill.style.width = pct + '%';
                 current.textContent = formatTime(audio.currentTime);
@@ -487,7 +496,6 @@
                 // 선택 초기화 및 UI 반영
                 selectedIds = [];
                 document.querySelectorAll('.song-card').forEach(c => c.classList.remove('selected'));
-                document.getElementById('selectedCount').textContent = '0';
             } catch (err) {
                 console.error('Vote error:', err);
                 alert('투표를 저장하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
