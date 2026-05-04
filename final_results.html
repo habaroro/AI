@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>퍼펙트문해 투표 결과</title>
-    <meta name="description" content="퍼펙트문해 CM송 투표 결과를 확인하세요!">
+    <title>퍼펙트문해 최종 투표 결과</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,7 +12,8 @@
             --primary: #2563EB;
             --primary-light: #60A5FA;
             --primary-dark: #1E40AF;
-            --accent: #0EA5E9;
+            --final-gold: #F59E0B;
+            --final-gold-light: #FFF7ED;
             --bg-start: #F8FAFC;
             --bg-end: #F1F5F9;
             --card-bg: #FFFFFF;
@@ -80,14 +80,15 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--primary);
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--final-gold);
             font-size: 12px;
             font-weight: 700;
             padding: 6px 14px;
             border-radius: 20px;
             margin-bottom: 12px;
             letter-spacing: 0.5px;
+            border: 1px solid rgba(245, 158, 11, 0.2);
         }
 
         @media (max-width: 520px) {
@@ -105,7 +106,7 @@
         h1 {
             font-size: 24px;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary) 100%);
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--final-gold) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -129,7 +130,7 @@
             width: 32px;
             height: 32px;
             border-radius: 10px;
-            background: rgba(37, 99, 235, 0.1);
+            background: rgba(245, 158, 11, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -143,10 +144,6 @@
             gap: 12px;
             margin-bottom: 28px;
             animation: fadeUp 0.5s ease 0.1s both;
-        }
-
-        .summary-card.full-width {
-            grid-column: 1 / -1;
         }
 
         .summary-card {
@@ -170,7 +167,7 @@
         .summary-card .value {
             font-size: 28px;
             font-weight: 800;
-            color: var(--primary);
+            color: var(--final-gold);
         }
 
         .summary-card .value small {
@@ -189,9 +186,6 @@
             margin-bottom: 20px;
             animation: fadeUp 0.5s ease both;
         }
-
-        .result-section:nth-child(1) { animation-delay: 0.15s; }
-        .result-section:nth-child(2) { animation-delay: 0.25s; }
 
         /* Result Item */
         .result-item {
@@ -214,8 +208,8 @@
             font-size: 13px;
             font-weight: 800;
             flex-shrink: 0;
-            background: rgba(37, 99, 235, 0.08);
-            color: var(--primary);
+            background: rgba(245, 158, 11, 0.08);
+            color: var(--final-gold);
         }
 
         .result-item:nth-child(1) .result-rank {
@@ -249,7 +243,7 @@
         .result-bar-wrap {
             width: 100%;
             height: 8px;
-            background: rgba(37, 99, 235, 0.06);
+            background: rgba(245, 158, 11, 0.06);
             border-radius: 4px;
             overflow: hidden;
         }
@@ -259,12 +253,13 @@
             border-radius: 4px;
             width: 0%;
             transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--final-gold);
         }
 
         .result-votes {
             font-size: 14px;
             font-weight: 800;
-            color: var(--primary);
+            color: var(--final-gold);
             flex-shrink: 0;
             min-width: 44px;
             text-align: right;
@@ -278,7 +273,7 @@
 
         /* Crown for 1st */
         .result-item:first-child .result-name::before {
-            content: '👑 ';
+            content: '🥇 ';
         }
 
         /* Empty State */
@@ -299,44 +294,22 @@
             gap: 6px;
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: linear-gradient(135deg, var(--final-gold) 0%, #D97706 100%);
             color: white;
             border: none;
             border-radius: 14px;
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.25);
             transition: all var(--transition);
             margin-top: 8px;
             font-family: inherit;
         }
 
-        .refresh-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(37, 99, 235, 0.35); }
+        .refresh-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(245, 158, 11, 0.35); }
         .refresh-btn:active { transform: scale(0.98); }
         .refresh-btn svg { width: 18px; height: 18px; }
-
-        .reset-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            width: 100%;
-            padding: 12px;
-            background: #FFF1F2;
-            color: #E11D48;
-            border: 1px solid #FECDD3;
-            border-radius: 14px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition);
-            margin-top: 12px;
-            opacity: 0.8;
-        }
-
-        .reset-btn:hover { background: #FFE4E6; opacity: 1; transform: translateY(-1px); }
-        .reset-btn svg { width: 14px; height: 14px; }
 
         /* Back Link */
         .back-link {
@@ -351,20 +324,9 @@
             transition: color var(--transition);
         }
 
-        .back-link:hover { color: var(--primary); }
+        .back-link:hover { color: var(--final-gold); }
         .back-link svg { width: 16px; height: 16px; }
 
-        /* Loading Spinner */
-        .loading-spinner {
-            width: 36px; height: 36px;
-            border: 3px solid rgba(37, 99, 235, 0.1);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 12px;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
@@ -377,11 +339,6 @@
             color: var(--text-muted);
             font-size: 12px;
             animation: fadeUp 0.5s ease 0.35s both;
-        }
-
-        @media (max-width: 480px) {
-            .app-container { padding: 16px; }
-            h1 { font-size: 20px; }
         }
     </style>
 </head>
@@ -396,14 +353,12 @@
                 <div class="header-center">
                     <div class="header-badge">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 20V10"/>
-                            <path d="M12 20V4"/>
-                            <path d="M6 20v-6"/>
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                         </svg>
-                        RESULTS
+                        GRAND FINAL RESULTS
                     </div>
-                    <h1>투표 결과</h1>
-                    <p class="subtitle">실시간 투표 현황을 확인해보세요</p>
+                    <h1>최종 투표 결과</h1>
+                    <p class="subtitle">영광의 주인공은 누구일까요?</p>
                 </div>
                 <div class="header-character">
                     <img src="img/cha_02.png" alt="캐릭터">
@@ -414,37 +369,17 @@
         <!-- Summary -->
         <div class="summary-row">
             <div class="summary-card">
-                <div class="label">총 투표 수</div>
+                <div class="label">최종 투표 수</div>
                 <div class="value" id="totalSubmission">0<small>표</small></div>
             </div>
             <div class="summary-card">
-                <div class="label">총 후보 곡</div>
+                <div class="label">결선 진출 곡</div>
                 <div class="value" id="totalSongs">0<small>곡</small></div>
             </div>
         </div>
 
-        <!-- Final Vote Link -->
-        <div style="margin-bottom: 24px;">
-            <a href="final_vote.html" style="text-decoration: none;">
-                <button class="refresh-btn" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); margin-bottom: 12px;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                    상위 10곡 최종 투표 시작하기
-                </button>
-            </a>
-            <a href="final_results.html" style="text-decoration: none;">
-                <button class="reset-btn" style="background: #FFFBEB; color: #D97706; border: 1px solid #FEF3C7; margin-top: 0; margin-bottom: 12px; width: 100%; padding: 14px; font-weight: 700; opacity: 1;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                    최종 투표 결과 보기
-                </button>
-            </a>
-        </div>
-
-        <!-- Submission Results -->
-        <div id="submissionSection"></div>
+        <!-- Result Section -->
+        <div id="resultSection"></div>
 
         <!-- Refresh -->
         <button class="refresh-btn" onclick="loadAll()">
@@ -454,20 +389,13 @@
             </svg>
             새로고침
         </button>
-        
-        <button class="reset-btn" onclick="resetVotes()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-            </svg>
-            모든 투표 데이터 초기화
-        </button>
 
         <div style="text-align:center; margin-top: 20px;">
-            <a href="vote.html" class="back-link">
+            <a href="results.html" class="back-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="15 18 9 12 15 6"/>
                 </svg>
-                투표 페이지로 돌아가기
+                예선 결과 보기
             </a>
         </div>
 
@@ -478,75 +406,76 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Supabase for submission titles
         const SUPABASE_URL = 'https://biibtfdpchcdlpfimimh.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_yDCKYS2CXf3-WGzgpJ_pQA_pTF_p68p';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
             auth: { persistSession: false, detectSessionInUrl: false }
         });
 
-        const defaultColors = ['#2563EB','#0EA5E9','#8B5CF6','#EC4899','#10B981','#F59E0B','#EF4444','#6366F1'];
-
-        function loadAll() {
-            renderSubmissionResults();
-        }
-
-        /* ── Submission Results ── */
-        async function renderSubmissionResults() {
-            const section = document.getElementById('submissionSection');
+        async function loadAll() {
+            const section = document.getElementById('resultSection');
             let submissions = [];
-            let allVotes = [];
+            let finalVotes = [];
 
-            // 1. 후보 곡 목록 가져오기 (독립적 실행)
             try {
-                const { data, error } = await supabaseClient
-                    .from('submissions')
-                    .select('id, song_title');
-                if (error) throw error;
-                submissions = data || [];
-                document.getElementById('totalSongs').innerHTML = submissions.length + '<small>곡</small>';
-            } catch (err) {
-                console.error('Submissions fetch error:', err);
-            }
+                // 1. Fetch submissions and preliminary votes to identify finalists
+                const [subsRes, prelimVotesRes, finalVotesRes] = await Promise.all([
+                    supabaseClient.from('submissions').select('id, song_title'),
+                    supabaseClient.from('votes').select('submission_id'),
+                    supabaseClient.from('final_votes').select('submission_id')
+                ]);
 
-            // 2. 전체 투표 데이터 가져오기 (독립적 실행)
-            try {
-                const { data, error } = await supabaseClient
-                    .from('votes')
-                    .select('submission_id');
-                if (error) throw error;
-                allVotes = data || [];
-            } catch (err) {
-                console.error('Votes fetch error:', err);
-                // votes 테이블이 없거나 권한이 없는 경우 안내 메시지 출력 가능
-            }
+                if (subsRes.error) throw subsRes.error;
+                if (prelimVotesRes.error) throw prelimVotesRes.error;
+                if (finalVotesRes.error) throw finalVotesRes.error;
 
-            // 3. 투표수 집계 및 UI 업데이트
-            const voteCounts = {};
-            allVotes.forEach(v => {
-                voteCounts[v.submission_id] = (voteCounts[v.submission_id] || 0) + 1;
-            });
+                const allSubmissions = subsRes.data;
+                const prelimVotes = prelimVotesRes.data;
+                finalVotes = finalVotesRes.data;
 
-            const total = allVotes.length;
-            document.getElementById('totalSubmission').innerHTML = total + '<small>표</small>';
+                // 2. Count prelim votes to get top 10
+                const prelimCounts = {};
+                prelimVotes.forEach(v => {
+                    prelimCounts[v.submission_id] = (prelimCounts[v.submission_id] || 0) + 1;
+                });
 
-            if (submissions.length > 0) {
-                const items = submissions.map((s, idx) => ({
+                const finalists = allSubmissions.map(s => ({
+                    ...s,
+                    prelimCount: prelimCounts[s.id] || 0
+                })).sort((a, b) => b.prelimCount - a.prelimCount)
+                .slice(0, 10);
+
+                document.getElementById('totalSongs').innerHTML = finalists.length + '<small>곡</small>';
+
+                // 3. Count final votes
+                const finalCounts = {};
+                finalVotes.forEach(v => {
+                    finalCounts[v.submission_id] = (finalCounts[v.submission_id] || 0) + 1;
+                });
+
+                const total = finalVotes.length;
+                document.getElementById('totalSubmission').innerHTML = total + '<small>표</small>';
+
+                // 4. Render Finalists with final vote counts
+                const items = finalists.map(s => ({
                     name: s.song_title,
-                    count: voteCounts[s.id] || 0,
-                    color: defaultColors[idx % defaultColors.length]
-                }));
-                items.sort((a, b) => b.count - a.count);
+                    count: finalCounts[s.id] || 0
+                })).sort((a, b) => b.count - a.count);
 
-                section.innerHTML = '';
-                const card = buildSection('🏆 실시간 공모전 현황', items);
-                section.appendChild(card);
-            } else {
-                section.innerHTML = '<div class="empty-state">공모곡 데이터를 불러올 수 없습니다.</div>';
+                if (items.length > 0) {
+                    section.innerHTML = '';
+                    const card = buildSection('🏆 최종 투표 순위', items);
+                    section.appendChild(card);
+                } else {
+                    section.innerHTML = '<div class="empty-state">최종 후보 데이터를 불러올 수 없습니다.</div>';
+                }
+
+            } catch (err) {
+                console.error('Error loading results:', err);
+                section.innerHTML = '<div class="empty-state">데이터를 불러오는 중 오류가 발생했습니다.</div>';
             }
         }
 
-        /* ── Build Section Card ── */
         function buildSection(title, items) {
             const div = document.createElement('div');
             div.className = 'result-section';
@@ -554,7 +483,7 @@
             let html = `<div class="section-title">${title}</div>`;
 
             if (items.length === 0) {
-                html += `<div class="empty-state"><div class="icon">📭</div><p>아직 등록된 곡이 없습니다</p></div>`;
+                html += `<div class="empty-state"><div class="icon">📭</div><p>아직 투표 데이터가 없습니다</p></div>`;
             } else {
                 const maxCount = Math.max(...items.map(i => i.count), 1);
                 items.forEach((item, idx) => {
@@ -565,7 +494,7 @@
                         <div class="result-body">
                             <div class="result-name">${item.name}</div>
                             <div class="result-bar-wrap">
-                                <div class="result-bar" data-width="${Math.max(pct, 4)}" style="background: linear-gradient(90deg, ${item.color}, ${item.color}88);"></div>
+                                <div class="result-bar" data-width="${Math.max(pct, 4)}"></div>
                             </div>
                         </div>
                         <div class="result-votes">${item.count}<small>표</small></div>
@@ -585,32 +514,6 @@
             });
 
             return div;
-        }
-
-        async function resetVotes() {
-            if (!confirm('정말로 모든 투표 데이터를 초기화하시겠습니까?\n이 작업은 되돌릴 수 없으며 "전체 사용자"의 투표 결과가 삭제됩니다.')) {
-                return;
-            }
-            
-            try {
-                // 1. Supabase 데이터 삭제 (votes 테이블의 모든 행 삭제)
-                const { error } = await supabaseClient
-                    .from('votes')
-                    .delete()
-                    .neq('id', '00000000-0000-0000-0000-000000000000'); // 모든 행 선택을 위한 트릭
-                
-                if (error) throw error;
-
-                // 2. 로컬 투표 상태 초기화
-                localStorage.removeItem('submissionVotes');
-                localStorage.removeItem('hasVotedSubmissions');
-                
-                alert('서버 및 로컬 데이터 초기화가 완료되었습니다.');
-                loadAll();
-            } catch (err) {
-                console.error('Reset error:', err);
-                alert('데이터 초기화 중 오류가 발생했습니다. RLS 정책을 확인해주세요.');
-            }
         }
 
         // Init
