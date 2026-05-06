@@ -129,6 +129,27 @@
         .stats-info { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
         .stats-count { color: var(--primary); font-weight: 800; font-size: 18px; margin-left: 4px; }
 
+        .view-all-btn {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all var(--transition);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+        .view-all-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            border-color: var(--primary);
+        }
+
         .submission-list { 
             display: grid; 
             grid-template-columns: 1fr; 
@@ -309,6 +330,7 @@
 
         <div class="stats-bar">
             <div class="stats-info">최종 후보 곡: <span class="stats-count" id="totalCount">0</span></div>
+            <a href="vote.html" class="view-all-btn">예선곡 전체 보기 &gt;</a>
         </div>
 
         <div id="loading" class="status-center">
