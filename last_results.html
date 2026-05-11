@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>슈퍼 파이널 실시간 결과</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-light: #60A5FA;
+            --primary-dark: #1E40AF;
+            --final-gold: #F59E0B;
+            --bg-start: #F8FAFC;
+            --bg-end: #F1F5F9;
+            --card-bg: #FFFFFF;
+            --card-border: rgba(37, 99, 235, 0.1);
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #94A3B8;
+            --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.06);
+            --radius: 20px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(160deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            padding: 40px 20px;
+        }
+
+        .container { width: 100%; max-width: 520px; margin: 0 auto; text-align: center; }
+
+        header { margin-bottom: 32px; animation: fadeIn 1s ease; }
+        
+        .header-hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .header-character {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+        }
+
+        .header-character img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+        }
+
+        h1 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+        .subtitle { color: var(--text-secondary); font-size: 14px; }
+
+        .total-box {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-md);
+        }
+        .total-label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; }
+        .total-value { font-size: 32px; font-weight: 800; color: var(--primary); }
+
+        .results-list { display: flex; flex-direction: column; gap: 16px; }
+
+        .result-item {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: left;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .result-info { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; }
+        .song-name { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+        .vote-count { font-size: 18px; font-weight: 800; color: var(--primary); }
+        .vote-pct { font-size: 12px; color: var(--text-muted); margin-left: 4px; }
+
+        .bar-bg { width: 100%; height: 8px; background: rgba(0,0,0,0.04); border-radius: 4px; overflow: hidden; }
+        .bar-fill { height: 100%; width: 0%; border-radius: 4px; transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        .result-item:nth-child(1) .bar-fill { background: var(--primary); }
+        .result-item:nth-child(2) .bar-fill { background: var(--final-gold); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .refresh-btn {
+            margin-top: 32px;
+            width: 100%;
+            background: white;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .refresh-btn:hover { background: var(--primary); color: white; }
+
+        .home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 20px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .home-link:hover { color: var(--primary); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="header-hero">
+                <div class="header-character">
+                    <img src="img/cha_03.png" alt="캐릭터">
+                </div>
+                <div class="header-center">
+                    <div class="header-badge">LIVE RESULTS</div>
+                    <h1>슈퍼 파이널 결과</h1>
+                    <p class="subtitle">실시간 투표 현황을 확인하세요</p>
+                </div>
+                <div class="header-character">
+                    <img src="img/cha_04.png" alt="캐릭터">
+                </div>
+            </div>
+        </header>
+
+        <div class="total-box">
+            <div class="total-label">누적 투표수</div>
+            <div class="total-value" id="totalVotes">0</div>
+        </div>
+
+        <div class="results-list" id="resultsList">
+            <!-- Items will be injected -->
+        </div>
+
+        <button class="refresh-btn" onclick="loadResults()">새로고침</button>
+        <br>
+        <a href="last_vote.html" class="home-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            투표 페이지로 돌아가기
+        </a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://biibtfdpchcdlpfimimh.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_yDCKYS2CXf3-WGzgpJ_pQA_pTF_p68p';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+            auth: { persistSession: false, detectSessionInUrl: false }
+        });
+
+        const targetSongs = [
+            { id: 'df718b2b-fcfe-480b-92b4-bb641779b814', name: '문해때문' },
+            { id: '569eef23-b3b6-4561-b013-3105f197ae04', name: '입문해 질문해 이해해 퍼펙트문해' }
+        ];
+
+        async function loadResults() {
+            try {
+                const { data, error } = await supabaseClient.from('last_votes').select('submission_id');
+                if (error) throw error;
+
+                const counts = {};
+                data.forEach(v => {
+                    counts[v.submission_id] = (counts[v.submission_id] || 0) + 1;
+                });
+
+                const total = data.length;
+                document.getElementById('totalVotes').textContent = total.toLocaleString() + '표';
+
+                const list = document.getElementById('resultsList');
+                list.innerHTML = '';
+
+                targetSongs.forEach(song => {
+                    const count = counts[song.id] || 0;
+                    const pct = total > 0 ? (count / total * 100).toFixed(1) : 0;
+
+                    const item = document.createElement('div');
+                    item.className = 'result-item';
+                    item.innerHTML = `
+                        <div class="result-info">
+                            <div class="song-name">${song.name}</div>
+                            <div class="vote-count">${count.toLocaleString()}<span class="vote-pct">${pct}%</span></div>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: 0%" data-width="${pct}"></div>
+                        </div>
+                    `;
+                    list.appendChild(item);
+                });
+
+                // Animate bars
+                setTimeout(() => {
+                    document.querySelectorAll('.bar-fill').forEach(bar => {
+                        bar.style.width = bar.dataset.width + '%';
+                    });
+                }, 100);
+
+            } catch (err) {
+                console.error('Load error:', err);
+                alert('데이터를 불러오는데 실패했습니다.');
+            }
+        }
+
+        loadResults();
+    </script>
+</body>
+</html>

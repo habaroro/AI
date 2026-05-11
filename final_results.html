@@ -44,7 +44,6 @@
             padding: 24px 20px;
         }
 
-        /* Header */
         header {
             text-align: center;
             margin-bottom: 32px;
@@ -378,6 +377,14 @@
             </div>
         </div>
 
+        <!-- Super Final Banner -->
+        <div style="background: linear-gradient(135deg, #6366F1, #EC4899); border-radius: var(--radius); padding: 24px; margin-bottom: 28px; text-align: center; color: white; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.25); animation: fadeUp 0.5s ease both;">
+            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; background: rgba(255,255,255,0.2); display: inline-block; padding: 2px 8px; border-radius: 4px;">Tie Breaker Round</div>
+            <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px;">공동 1위 발생! 슈퍼 파이널 실시</h2>
+            <p style="font-size: 14px; opacity: 0.9; margin-bottom: 24px; line-height: 1.5;">영광의 1등을 가리기 위해<br>상위 2곡을 대상으로 최종 투표를 진행합니다.</p>
+            <a href="last_vote.html" style="display: inline-block; background: white; color: #6366F1; padding: 14px 40px; border-radius: 50px; font-weight: 800; text-decoration: none; font-size: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); transition: 0.3s; transform: translateZ(0);">최종 투표하러 가기 &gt;</a>
+        </div>
+
         <!-- Result Section -->
         <div id="resultSection"></div>
 
@@ -398,15 +405,6 @@
                 예선 결과 보기
             </a>
 </div>
-        <div style="text-align:center; margin-top: 12px;">
-            <button class="reset-btn" onclick="resetFinalVotes()" style="background: #FFFBEB; color: #D97706; border: 1px solid #FEF3C7; width: 100%; padding: 12px; font-weight: 700;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px; margin-right:4px;">
-                    <path d="M3 6h18"/>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                </svg>
-                모든 최종 투표 데이터 초기화
-            </button>
-        </div>
 
         <div class="footer">
             <p>© 2026 Perfect Literacy. All rights reserved.</p>
