@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>슈퍼 파이널 실시간 결과</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary: #2563EB;
@@ -25,7 +27,11 @@
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Noto Sans KR', sans-serif;
@@ -35,10 +41,18 @@
             padding: 40px 20px;
         }
 
-        .container { width: 100%; max-width: 520px; margin: 0 auto; text-align: center; }
+        .container {
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto;
+            text-align: center;
+        }
 
-        header { margin-bottom: 32px; animation: fadeIn 1s ease; }
-        
+        header {
+            margin-bottom: 32px;
+            animation: fadeIn 1s ease;
+        }
+
         .header-hero {
             display: flex;
             align-items: center;
@@ -48,8 +62,8 @@
         }
 
         .header-character {
-            width: 80px;
-            height: 80px;
+            width: 146px;
+            height: 146px;
             flex-shrink: 0;
         }
 
@@ -72,8 +86,16 @@
             margin-bottom: 8px;
         }
 
-        h1 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
-        .subtitle { color: var(--text-secondary); font-size: 14px; }
+        h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
 
         .total-box {
             background: var(--card-bg);
@@ -83,10 +105,25 @@
             border: 1px solid var(--card-border);
             box-shadow: var(--shadow-md);
         }
-        .total-label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; }
-        .total-value { font-size: 32px; font-weight: 800; color: var(--primary); }
 
-        .results-list { display: flex; flex-direction: column; gap: 16px; }
+        .total-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .total-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
 
         .result-item {
             background: var(--card-bg);
@@ -98,18 +135,65 @@
             transition: var(--transition);
         }
 
-        .result-info { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; }
-        .song-name { font-size: 15px; font-weight: 700; color: var(--text-primary); }
-        .vote-count { font-size: 18px; font-weight: 800; color: var(--primary); }
-        .vote-pct { font-size: 12px; color: var(--text-muted); margin-left: 4px; }
+        .result-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 12px;
+        }
 
-        .bar-bg { width: 100%; height: 8px; background: rgba(0,0,0,0.04); border-radius: 4px; overflow: hidden; }
-        .bar-fill { height: 100%; width: 0%; border-radius: 4px; transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .song-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
 
-        .result-item:nth-child(1) .bar-fill { background: var(--primary); }
-        .result-item:nth-child(2) .bar-fill { background: var(--final-gold); }
+        .vote-count {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .vote-pct {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: 4px;
+        }
+
+        .bar-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 4px;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .result-item:nth-child(1) .bar-fill {
+            background: var(--primary);
+        }
+
+        .result-item:nth-child(2) .bar-fill {
+            background: var(--final-gold);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         .refresh-btn {
             margin-top: 32px;
@@ -124,7 +208,11 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        .refresh-btn:hover { background: var(--primary); color: white; }
+
+        .refresh-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
 
         .home-link {
             display: inline-flex;
@@ -136,9 +224,13 @@
             font-size: 13px;
             font-weight: 500;
         }
-        .home-link:hover { color: var(--primary); }
+
+        .home-link:hover {
+            color: var(--primary);
+        }
     </style>
 </head>
+
 <body>
 
     <div class="container">
@@ -170,7 +262,9 @@
         <button class="refresh-btn" onclick="loadResults()">새로고침</button>
         <br>
         <a href="last_vote.html" class="home-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
             투표 페이지로 돌아가기
         </a>
     </div>
@@ -238,4 +332,5 @@
         loadResults();
     </script>
 </body>
+
 </html>
