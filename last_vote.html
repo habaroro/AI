@@ -98,34 +98,49 @@
             font-size: 24px;
             font-weight: 800;
             margin-bottom: 8px;
+            word-break: keep-all;
         }
 
         .subtitle {
             font-size: 14px;
             color: var(--text-secondary);
             line-height: 1.5;
+            word-break: keep-all;
         }
 
         .subtitle .highlight {
             color: var(--primary);
             font-weight: 700;
-            display: block;
             margin-top: 8px;
-            font-size: 15px;
+            font-size: 14px;
             background: rgba(37, 99, 235, 0.05);
-            padding: 4px 12px;
+            padding: 6px 12px;
             border-radius: 8px;
             display: inline-block;
+            max-width: 100%;
         }
 
-        @media (max-width: 520px) {
+        @media (max-width: 600px) {
             .header-character {
-                width: 120px;
-                height: 120px;
+                width: 80px;
+                height: 80px;
             }
 
             .header-hero {
-                gap: 8px;
+                gap: 4px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .subtitle {
+                font-size: 13px;
+            }
+
+            .header-badge {
+                font-size: 10px;
+                padding: 4px 10px;
             }
         }
 
